@@ -75,24 +75,22 @@
     </header>
 
     <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+        <a href="#AP">AP</a>
+        <a href="#AR">AR</a>
+        <a href="#Utilization">Utilization</a>
     </nav>
 
     <!-- Main Content -->
     <main>
         <section id="home">
-            <h2>Home Section</h2>
-            <p>This is the home section of the basic HTML template. Below is the table with invoice details where you can choose the decision and add notes.</p>
+            <h2>Account receivable (vendors invoices)</h2>
+            <p>Please review your invoices and update the decision cell with your choice. If there are any specific notes related to your decision, please add them to the notes cell.</p>
             
             <!-- PM Name Filter Dropdown -->
             <label for="pmFilter">Filter by PM Name:</label>
             <select id="pmFilter" onchange="filterByPM()">
                 <option value="all">All</option>
-                <option value="John Doe">John Doe</option>
-                <option value="Jane Smith">Jane Smith</option>
-                <option value="Bob Johnson">Bob Johnson</option>
+                <option value="Derrick Wills">Derrick Wills</option>
             </select>
 
             <!-- Invoice Table -->
@@ -110,9 +108,9 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>John Doe</td>
+                        <td>Derrick Wills</td>
                         <td>ABC Corp</td>
-                        <td>2024-10-21</td>
+                        <td>10-21-2024</td>
                         <td>INV123456</td>
                         <td><a href="https://example.com/invoice1" target="_blank">Preview</a></td>
                         <td>
@@ -125,70 +123,18 @@
                         </td>
                         <td><input type="text" name="notes1" placeholder="Add notes here"></td>
                     </tr>
-                    <tr>
-                        <td>Jane Smith</td>
-                        <td>XYZ Ltd</td>
-                        <td>2024-10-19</td>
-                        <td>INV789123</td>
-                        <td><a href="https://example.com/invoice2" target="_blank">Preview</a></td>
-                        <td>
-                            <select name="decision2">
-                                <option value="---">---</option>
-                                <option value="approved">Approved</option>
-                                <option value="hold">Hold</option>
-                                <option value="decline">Decline</option>
-                            </select>
-                        </td>
-                        <td><input type="text" name="notes2" placeholder="Add notes here"></td>
-                    </tr>
-                    <tr>
-                        <td>Bob Johnson</td>
-                        <td>Widgets Inc</td>
-                        <td>2024-10-15</td>
-                        <td>INV456789</td>
-                        <td><a href="https://example.com/invoice3" target="_blank">Preview</a></td>
-                        <td>
-                            <select name="decision3">
-                                <option value="---">---</option>
-                                <option value="approved">Approved</option>
-                                <option value="hold">Hold</option>
-                                <option value="decline">Decline</option>
-                            </select>
-                        </td>
-                        <td><input type="text" name="notes3" placeholder="Add notes here"></td>
-                    </tr>
+                 
                 </tbody>
             </table>
         </section>
 
-        <section id="about">
-            <h2>About Section</h2>
-            <p>This section talks about the purpose of the website and includes some interactivity using JavaScript.</p>
-
-            <!-- Button to demonstrate basic JavaScript interaction -->
-            <button onclick="showAlert()">Click Me!</button>
-        </section>
-
-        <section id="contact">
-            <h2>Contact Section</h2>
-            <p>Fill out the form below to contact us.</p>
-
-            <!-- Simple Form -->
-            <form onsubmit="handleForm(event)">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" required><br>
-                
-                <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required><br>
-                
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+       
+       
     </main>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Northgate Accounting</p>
+        <p>&copy; Northgate Accounting Department</p>
     </footer>
 
     <!-- JavaScript for basic interactivity -->
