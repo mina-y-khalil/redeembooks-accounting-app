@@ -4,6 +4,22 @@
   <img src="https://redeem-innovations.com/wp-content/uploads/2025/07/redeemBooks.jpg" alt="repo" />
 </p>
 
+## 📖 Project Wiki
+
+For a complete overview of the **RedeemBooks Accounting App** – including detailed feature lists, database schema, backend and frontend routes, wireframes, and system design documentation – please visit our **[Wiki](https://github.com/mina-y-khalil/redeembooks-accounting-app/wiki)**.
+
+The Wiki contains:
+
+- ✨ Feature List & User Stories
+- 🗄️ Database Schema
+- 🔗 Backend API Routes
+- 🛤️ Frontend Routes
+- 🎨 Wireframes
+- 📦 Redux State Shape
+- 📋 Kanban / Scrum Board
+
+---
+
 This is the starter for the Flask React project.
 
 ## Getting started
