@@ -52,6 +52,7 @@ class Invoice(db.Model):
     user = db.relationship('User', back_populates='invoices_created', foreign_keys=[user_id])
     approver = db.relationship('User', back_populates='invoices_approved', foreign_keys=[approved_by])
     payments = db.relationship('Payment', back_populates='invoice', cascade="all, delete-orphan")
+    
 
     def to_dict(self):
         return {

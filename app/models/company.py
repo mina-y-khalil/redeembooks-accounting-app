@@ -36,6 +36,11 @@ class Company(db.Model):
     vendors = db.relationship('Vendor', back_populates='company', cascade="all, delete-orphan")
     categories = db.relationship('Category', back_populates='company', cascade="all, delete-orphan")
     invoices = db.relationship('Invoice', back_populates='company', cascade="all, delete-orphan")
+    payments = db.relationship('Payment', back_populates='company', cascade="all, delete-orphan")
+    payment_batches = db.relationship('PaymentBatch', back_populates='company', cascade="all, delete-orphan")
+    bank_balances = db.relationship('BankBalance', back_populates='company', cascade="all, delete-orphan")
+
+
 
 
 

@@ -22,8 +22,9 @@ class User(db.Model, UserMixin):
     # Relationships
     companies = db.relationship('UserCompany', back_populates='user', cascade="all, delete-orphan") # Relationship with UserCompany
     approvers = db.relationship('Approver', back_populates='user', cascade="all, delete-orphan") # Relationship with Approver
+    payments = db.relationship('Payment', back_populates='user', cascade="all, delete-orphan")
+    payment_batches = db.relationship('PaymentBatch', back_populates='user', cascade="all, delete-orphan")
 
- 
 
 
     @property
