@@ -35,6 +35,8 @@ class Company(db.Model):
     approvers = db.relationship('Approver', back_populates='company', cascade="all, delete-orphan") # Relationship with Approver
     vendors = db.relationship('Vendor', back_populates='company', cascade="all, delete-orphan")
     categories = db.relationship('Category', back_populates='company', cascade="all, delete-orphan")
+    invoices = db.relationship('Invoice', back_populates='company', cascade="all, delete-orphan")
+
 
 
 
