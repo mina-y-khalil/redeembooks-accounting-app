@@ -33,6 +33,9 @@ class Company(db.Model):
     audit_logs = db.relationship('AuditLog', back_populates='company', cascade="all, delete-orphan")
     users = db.relationship('UserCompany', back_populates='company', cascade="all, delete-orphan") # Relationship with UserCompany
     approvers = db.relationship('Approver', back_populates='company', cascade="all, delete-orphan") # Relationship with Approver
+    vendors = db.relationship('Vendor', back_populates='company', cascade="all, delete-orphan")
+    categories = db.relationship('Category', back_populates='company', cascade="all, delete-orphan")
+
 
 
     def to_dict(self):
