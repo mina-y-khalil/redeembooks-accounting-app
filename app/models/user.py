@@ -24,6 +24,11 @@ class User(db.Model, UserMixin):
     approvers = db.relationship('Approver', back_populates='user', cascade="all, delete-orphan") # Relationship with Approver
     payments = db.relationship('Payment', back_populates='user', cascade="all, delete-orphan")
     payment_batches = db.relationship('PaymentBatch', back_populates='user', cascade="all, delete-orphan")
+    invoices_created = db.relationship('Invoice', back_populates='user', foreign_keys='Invoice.user_id', cascade="all, delete-orphan")
+    invoices_approved = db.relationship('Invoice', back_populates='approver', foreign_keys='Invoice.approved_by', cascade="all, delete-orphan")
+    audit_logs = db.relationship('AuditLog', back_populates='user', cascade="all, delete-orphan")
+
+
 
 
 
