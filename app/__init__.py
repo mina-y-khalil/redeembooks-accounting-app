@@ -13,6 +13,9 @@ from .api.company_routes import company_routes
 from .api.vendor_routes import vendor_routes
 from .api.category_routes import category_routes
 from .api.invoice_routes import invoice_routes
+from .api.payment_routes import payment_routes
+from .api.payment_batch_routes import payment_batch_routes
+
 
 
 
@@ -40,6 +43,11 @@ app.register_blueprint(company_routes, url_prefix='/api/companies')
 app.register_blueprint(vendor_routes, url_prefix='/api') 
 app.register_blueprint(category_routes, url_prefix='/api')
 app.register_blueprint(invoice_routes, url_prefix='/api')
+app.register_blueprint(payment_routes, url_prefix='/api')
+app.register_blueprint(payment_batch_routes, url_prefix='/api')
+
+
+
 
 
 

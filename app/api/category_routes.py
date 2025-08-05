@@ -51,7 +51,7 @@ def update_category(id):
     db.session.commit()
     return category.to_dict(), 200
 
-# ✅ Delete Category
+# Delete Category
 @category_routes.route('/categories/<int:id>', methods=['DELETE'])
 @login_required
 def delete_category(id):
