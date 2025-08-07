@@ -15,6 +15,11 @@ from .api.category_routes import category_routes
 from .api.invoice_routes import invoice_routes
 from .api.payment_routes import payment_routes
 from .api.payment_batch_routes import payment_batch_routes
+from .api.approver_routes import approver_routes
+from .api.user_company_routes import user_company_routes
+from .api.bank_balance_routes import bank_balance_routes
+
+
 
 
 
@@ -45,6 +50,10 @@ app.register_blueprint(category_routes, url_prefix='/api')
 app.register_blueprint(invoice_routes, url_prefix='/api')
 app.register_blueprint(payment_routes, url_prefix='/api')
 app.register_blueprint(payment_batch_routes, url_prefix='/api')
+app.register_blueprint(approver_routes, url_prefix='/api')
+app.register_blueprint(user_company_routes, url_prefix='/api')
+app.register_blueprint(bank_balance_routes, url_prefix='/api')
+
 
 
 

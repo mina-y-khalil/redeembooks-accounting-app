@@ -1,15 +1,22 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, PaymentBatch
+from app.models import db, PaymentBatch, UserCompany
 from datetime import datetime
 
 
 payment_batch_routes = Blueprint('payment_batches', __name__)
 
+def check_access(company_id):  # Added helper
+    return UserCompany.query.filter_by(user_id=current_user.id, company_id=company_id).first()
+
+
 # Get All Batches for a Company
 @payment_batch_routes.route('/companies/<int:company_id>/batches', methods=['GET'])
 @login_required
 def get_batches(company_id):
+    if not check_access(company_id):  #  Access check
+        return {"errors": ["Unauthorized"]}, 403
+    
     batches = PaymentBatch.query.filter_by(company_id=company_id).all()
     return {"batches": [batch.to_dict() for batch in batches]}, 200
 
@@ -20,12 +27,20 @@ def get_batch(id):
     batch = PaymentBatch.query.get(id)
     if not batch:
         return {"errors": ["Batch not found"]}, 404
+    
+    if not check_access(batch.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     return batch.to_dict(), 200
 
 # Create Batch
 @payment_batch_routes.route('/companies/<int:company_id>/batches', methods=['POST'])
 @login_required
 def create_batch(company_id):
+
+    if not check_access(company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     data = request.get_json()
 
     batch_date = datetime.strptime(data.get('batch_date'), '%Y-%m-%d').date()
@@ -50,6 +65,10 @@ def update_batch(id):
     batch = PaymentBatch.query.get(id)
     if not batch:
         return {"errors": ["Batch not found"]}, 404
+    
+    if not check_access(batch.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
 
     data = request.get_json()
 
@@ -73,6 +92,10 @@ def delete_batch(id):
     batch = PaymentBatch.query.get(id)
     if not batch:
         return {"errors": ["Batch not found"]}, 404
+    
+    if not check_access(batch.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     
     db.session.delete(batch)
     db.session.commit()

@@ -1,9 +1,14 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Invoice
+from app.models import db, Invoice, UserCompany
 from datetime import datetime
 
 invoice_routes = Blueprint('invoices', __name__)
+
+def check_access(company_id):  # Helper for access control
+    return UserCompany.query.filter_by(user_id=current_user.id, company_id=company_id).first()
+
+
 
 def str_to_date(date_str):
     if date_str:
@@ -14,6 +19,9 @@ def str_to_date(date_str):
 @invoice_routes.route('/companies/<int:company_id>/invoices', methods=['GET'])
 @login_required
 def get_invoices(company_id):
+    if not check_access(company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     invoices = Invoice.query.filter_by(company_id=company_id).all()
     return {"invoices": [invoice.to_dict() for invoice in invoices]}, 200
 
@@ -24,12 +32,18 @@ def get_invoice(id):
     invoice = Invoice.query.get(id)
     if not invoice:
         return {"errors": ["Invoice not found"]}, 404
+    
+    if not check_access(invoice.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     return invoice.to_dict(), 200
 
 # Create Invoice
 @invoice_routes.route('/companies/<int:company_id>/invoices', methods=['POST'])
 @login_required
 def create_invoice(company_id):
+    if not check_access(company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
     data = request.get_json()
     invoice = Invoice(
         company_id=company_id,
@@ -58,6 +72,10 @@ def update_invoice(id):
     invoice = Invoice.query.get(id)
     if not invoice:
         return {"errors": ["Invoice not found"]}, 404
+    
+    if not check_access(invoice.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
 
     data = request.get_json()
     if 'vendor_id' in data: invoice.vendor_id = data['vendor_id']
@@ -83,6 +101,10 @@ def delete_invoice(id):
     invoice = Invoice.query.get(id)
     if not invoice:
         return {"errors": ["Invoice not found"]}, 404
+    
+    if not check_access(invoice.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     
     db.session.delete(invoice)
     db.session.commit()

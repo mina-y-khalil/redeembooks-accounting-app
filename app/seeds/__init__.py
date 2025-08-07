@@ -8,6 +8,8 @@ from .payments import seed_payments, undo_payments
 from .payment_batches import seed_payment_batches, undo_payment_batches
 from .bank_balances import seed_bank_balances, undo_bank_balances
 from .audit_logs import seed_audit_logs, undo_audit_logs
+from .user_companies import seed_user_companies, undo_user_companies
+
 
 from app.models.db import db, environment, SCHEMA
 
@@ -43,6 +45,8 @@ def seed():
     seed_payment_batches()
     seed_bank_balances()
     seed_audit_logs()
+    seed_user_companies()
+
 
 
 # Creates the `flask seed undo` command
@@ -58,4 +62,6 @@ def undo():
     undo_categories()
     undo_vendors()
     undo_companies()
+    undo_user_companies()
+
 

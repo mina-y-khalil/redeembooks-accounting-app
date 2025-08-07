@@ -1,13 +1,22 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Vendor
+from app.models import db, Vendor, UserCompany
 
 vendor_routes = Blueprint('vendors', __name__)
+
+def check_access(company_id):  # Added helper
+    return UserCompany.query.filter_by(user_id=current_user.id, company_id=company_id).first()
+
+
 
 # Get All Vendors
 @vendor_routes.route('/companies/<int:company_id>/vendors', methods=['GET'])
 @login_required
 def get_vendors(company_id):
+
+    if not check_access(company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     vendors = Vendor.query.filter_by(company_id=company_id).all()
     return {"vendors": [vendor.to_dict() for vendor in vendors]}, 200
 
@@ -18,12 +27,20 @@ def get_vendor(id):
     vendor = Vendor.query.get(id)
     if not vendor:
         return {"errors": ["Vendor not found"]}, 404
+    
+    if not check_access(vendor.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
     return vendor.to_dict(), 200
 
 # Create Vendor
 @vendor_routes.route('/companies/<int:company_id>/vendors', methods=['POST'])
 @login_required
 def create_vendor(company_id):
+    if not check_access(company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
+
     data = request.get_json()
     vendor = Vendor(
         company_id=company_id,
@@ -53,6 +70,10 @@ def update_vendor(id):
     if not vendor:
         return {"errors": ["Vendor not found"]}, 404
     
+    if not check_access(vendor.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
+
+    
     data = request.get_json()
     for field in ['name', 'contact_name', 'email', 'phone', 'tax_id', 'street', 
                   'city', 'county', 'state', 'zipcode', 'preferred_payment_method', 
@@ -70,6 +91,9 @@ def delete_vendor(id):
     vendor = Vendor.query.get(id)
     if not vendor:
         return {"errors": ["Vendor not found"]}, 404
+    
+    if not check_access(vendor.company_id):  # Access check
+        return {"errors": ["Unauthorized"]}, 403
     
     db.session.delete(vendor)
     db.session.commit()

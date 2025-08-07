@@ -1,14 +1,18 @@
 from flask import Blueprint, request
 from flask_login import login_required, current_user
-from app.models import db, Company
+from app.models import db, Company, UserCompany
 
 company_routes = Blueprint('companies', __name__)
+
+def check_access(company_id): 
+    return UserCompany.query.filter_by(user_id=current_user.id, company_id=company_id).first()
 
 # Get all companies
 @company_routes.route('/', methods=['GET'])
 @login_required
 def get_companies():
-    companies = Company.query.all()
+    companies = Company.query.join(UserCompany, UserCompany.company_id == Company.id)\
+        .filter(UserCompany.user_id == current_user.id).all()
     return {'companies': [company.to_dict() for company in companies]}
 
 # Get a single company
@@ -18,6 +22,10 @@ def get_company(id):
     company = Company.query.get(id)
     if not company:
         return {"errors": ["Company not found"]}, 404
+
+    if not check_access(id):
+        return {"errors": ["Unauthorized"]}, 403
+
     return company.to_dict()
 
 # Create a new company
@@ -30,6 +38,11 @@ def create_company():
 
     if not name or not tax_id:
         return {"errors": ["Name and Tax ID are required"]}, 400
+
+    # Duplicate tax ID check
+    existing_company = Company.query.filter_by(tax_id=tax_id).first()
+    if existing_company:
+        return {"errors": ["A company with this Tax ID already exists"]}, 400
 
     company = Company(
         name=name,
@@ -44,6 +57,12 @@ def create_company():
     )
     db.session.add(company)
     db.session.commit()
+
+    # Link current user to the new company (only once)
+    user_company = UserCompany(user_id=current_user.id, company_id=company.id)
+    db.session.add(user_company)
+    db.session.commit()
+
     return company.to_dict(), 201
 
 # Update company
@@ -54,9 +73,22 @@ def update_company(id):
     if not company:
         return {"errors": ["Company not found"]}, 404
 
+    if not check_access(id):
+        return {"errors": ["Unauthorized"]}, 403
+
     data = request.get_json()
+    new_tax_id = data.get('tax_id', company.tax_id)
+
+    # Check duplicate Tax ID (excluding current company)
+    existing_company = Company.query.filter(
+        Company.tax_id == new_tax_id,
+        Company.id != id
+    ).first()
+    if existing_company:
+        return {"errors": ["A company with this Tax ID already exists"]}, 400
+
     company.name = data.get('name', company.name)
-    company.tax_id = data.get('tax_id', company.tax_id)
+    company.tax_id = new_tax_id  # Use the validated new tax ID
     company.street = data.get('street', company.street)
     company.city = data.get('city', company.city)
     company.county = data.get('county', company.county)
@@ -75,6 +107,9 @@ def delete_company(id):
     company = Company.query.get(id)
     if not company:
         return {"errors": ["Company not found"]}, 404
+
+    if not check_access(id):
+        return {"errors": ["Unauthorized"]}, 403
 
     db.session.delete(company)
     db.session.commit()
