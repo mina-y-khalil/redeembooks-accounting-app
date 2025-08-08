@@ -28,6 +28,17 @@ function LoginFormModal() {
     }
   };
 
+  const handleDemoLogin = async () => {
+    const res = await dispatch(thunkLogin({ email: "demo@example.com", password: "password" }));
+    if (res) {
+      setErrors({ credential: "Demo login failed" });
+    } else {
+      closeModal();
+    }
+  };
+
+
+
   return (
     <>
       <h1>Log In</h1>
@@ -53,6 +64,9 @@ function LoginFormModal() {
         </label>
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Log In</button>
+        <button type="button" onClick={handleDemoLogin}>
+          Log in as Demo User
+        </button>
       </form>
     </>
   );

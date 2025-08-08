@@ -9,6 +9,22 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .seeds import seed_commands
 from .config import Config
+from .api.company_routes import company_routes
+from .api.vendor_routes import vendor_routes
+from .api.category_routes import category_routes
+from .api.invoice_routes import invoice_routes
+from .api.payment_routes import payment_routes
+from .api.payment_batch_routes import payment_batch_routes
+from .api.approver_routes import approver_routes
+from .api.user_company_routes import user_company_routes
+from .api.bank_balance_routes import bank_balance_routes
+
+
+
+
+
+
+
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
@@ -28,6 +44,22 @@ app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
+app.register_blueprint(company_routes, url_prefix='/api/companies') 
+app.register_blueprint(vendor_routes, url_prefix='/api') 
+app.register_blueprint(category_routes, url_prefix='/api')
+app.register_blueprint(invoice_routes, url_prefix='/api')
+app.register_blueprint(payment_routes, url_prefix='/api')
+app.register_blueprint(payment_batch_routes, url_prefix='/api')
+app.register_blueprint(approver_routes, url_prefix='/api')
+app.register_blueprint(user_company_routes, url_prefix='/api')
+app.register_blueprint(bank_balance_routes, url_prefix='/api')
+
+
+
+
+
+
+
 db.init_app(app)
 Migrate(app, db)
 
