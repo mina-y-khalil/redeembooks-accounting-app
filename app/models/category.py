@@ -21,7 +21,6 @@ class Category(db.Model):
     # Relationships
     company = db.relationship('Company', back_populates='categories')
     invoices = db.relationship('Invoice', back_populates='category', cascade="all, delete-orphan")
-    invoices = db.relationship('Invoice', back_populates='category', cascade="all, delete-orphan")
 
 
     def to_dict(self):

@@ -31,9 +31,6 @@ class Company(db.Model):
     payment_batches = db.relationship('PaymentBatch', back_populates='company', cascade="all, delete-orphan")
     bank_balances = db.relationship('BankBalance', back_populates='company', cascade="all, delete-orphan")
     audit_logs = db.relationship('AuditLog', back_populates='company', cascade="all, delete-orphan")
-    users = db.relationship('UserCompany', back_populates='company', cascade="all, delete-orphan") # Relationship with UserCompany
-    approvers = db.relationship('Approver', back_populates='company', cascade="all, delete-orphan") # Relationship with Approver
-    vendors = db.relationship('Vendor', back_populates='company', cascade="all, delete-orphan")
     categories = db.relationship('Category', back_populates='company', cascade="all, delete-orphan")
     invoices = db.relationship('Invoice', back_populates='company', cascade="all, delete-orphan")
     payments = db.relationship('Payment', back_populates='company', cascade="all, delete-orphan")
