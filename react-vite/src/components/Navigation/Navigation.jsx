@@ -1,19 +1,73 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import "./Navigation.css";
 
-function Navigation() {
-  return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
+const comingSoonFeatures = [
+  { name: "Payment Batches", path: "/" },
+  { name: "Approvers", path: "/" },
+  { name: "Companies", path: "/" },
+  { name: "Bank Balances", path: "/" },
+  { name: "Audit Logs", path: "/" },
+];
 
-      <li>
-        <ProfileButton />
-      </li>
-    </ul>
+
+function Navigation() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  return (
+    <div className="sidebar">
+      <div className="sidebar-top-section">
+        <NavLink to="/" className="sidebar-logo-link">
+          <img src="https://redeem-innovations.com/wp-content/uploads/2025/08/RedeemBooks-Logo.png" alt="Home" className="sidebar-logo" />
+        </NavLink>
+        <div className="sidebar-icons">
+          <ProfileButton />
+        </div>
+      </div>
+
+      <div className="sidebar-nav">
+        <NavLink to="/" className="nav-button active">Dashboard</NavLink>
+
+        <button onClick={toggleDropdown} className="nav-button dark dropdown-toggle">
+          Accounts Payable (AP) <span className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>&#9660;</span>
+        </button>
+
+        {isDropdownOpen && (
+          <div className="dropdown-container">
+            <NavLink to="/" className="nav-button yellow">Vendors</NavLink>
+            <NavLink to="/" className="nav-button yellow">Categories</NavLink>
+            <NavLink to="/" className="nav-button yellow">Invoices</NavLink>
+            <NavLink to="/" className="nav-button yellow">Payments</NavLink>
+          </div>
+        )}
+      </div>
+
+      <div className="sidebar-nav coming-soon-container">
+        {isDropdownOpen && (
+          <>
+            {comingSoonFeatures.map((feature) => (
+              <NavLink to={feature.path} key={feature.name} className="nav-button deactivated-button">
+                {feature.name} <span className="coming-soon-note">Coming Soon</span>
+              </NavLink>
+            ))}
+          </>
+        )}
+      </div>
+
+      {!isDropdownOpen && (
+        <div className="sidebar-bottom-section">
+          <img src="https://redeem-innovations.com/wp-content/uploads/2025/08/Github-qrcode.png" alt="QR Code" className="qr-code" />
+          <p className="developer-credit">Developed by: Mina Y. Khalil</p>
+        </div>
+      )}
+    </div>
   );
 }
+
 
 export default Navigation;

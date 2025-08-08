@@ -1,0 +1,141 @@
+/* Wrapper to anchor the dropdown */
+.profile-button-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* Clean circular icon button */
+.profile-menu-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 0;
+  background: #eef1ef;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.05s ease;
+}
+.profile-menu-button:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.profile-menu-button:active { transform: translateY(1px); }
+.profile-menu-button svg {
+  width: 22px;
+  height: 22px;
+  color: #1E7A46;
+}
+
+/* Dropdown panel */
+.profile-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 200px;
+  padding: 10px;
+  margin: 0;
+  list-style: none;
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+/* Space between items */
+.profile-dropdown > li { margin: 8px 0; }
+
+/* Default look for li when OpenModalMenuItem renders <li> */
+.profile-dropdown.logged-out > li {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Turn the first/second items into pill buttons for logged-out state */
+.profile-dropdown.logged-out > li:first-child,
+.profile-dropdown.logged-out > li:nth-child(2) {
+  height: 48px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 16px;
+  user-select: none;
+  transition: transform 0.05s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+/* CLICKABLE CHILD FIX: make inner button/anchor fill the pill and show pointer */
+.profile-dropdown.logged-out > li > * {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  border-radius: inherit;
+  text-decoration: none;
+}
+
+/* Login (green pill) */
+.profile-dropdown.logged-out > li:first-child {
+  background: #1E7A46;
+  color: #ffffff;
+}
+.profile-dropdown.logged-out > li:first-child:hover { filter: brightness(1.05); }
+.profile-dropdown.logged-out > li:first-child:active { transform: translateY(1px); }
+
+/* Sign Up (yellow pill) */
+.profile-dropdown.logged-out > li:nth-child(2) {
+  background: #FFD700;
+  color: #00525E;
+}
+.profile-dropdown.logged-out > li:nth-child(2):hover { filter: brightness(1.03); }
+.profile-dropdown.logged-out > li:nth-child(2):active { transform: translateY(1px); }
+
+/* Logged-in: plain text rows + a logout pill */
+.dropdown-text {
+  padding: 6px 10px;
+  color: #1b1b1b;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+/* Logout button styled as a pill */
+.dropdown-btn.logout-btn {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 999px;
+  background: #FFD700;
+  color: #00525E;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.05s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.dropdown-btn.logout-btn:hover { filter: brightness(1.03); }
+.dropdown-btn.logout-btn:active { transform: translateY(1px); }
+
+/* Make sure dropdown never clips behind the sidebar content */
+.sidebar { overflow: visible; }
+
+
+
+/* Make the inner button fill and inherit the pill styles */
+.profile-dropdown.logged-out > li > .modal-menu-button {
+  cursor: pointer;           /* hand cursor on hover */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  border-radius: inherit;
+  text-decoration: none;
+}
+

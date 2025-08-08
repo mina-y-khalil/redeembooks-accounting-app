@@ -1,0 +1,72 @@
+.login-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 688px;
+  width: 100%;
+  padding: 40px;
+  background-color: #E0E0E0;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.login-modal h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #1E7A46;
+}
+
+.login-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.login-modal label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333333;
+}
+
+.login-modal input {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #CCCCCC;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #FFFFFF;
+}
+
+.login-modal input:focus {
+  border-color: #1E7A46;
+  outline: none;
+}
+
+.login-modal button {
+  padding: 12px;
+  background-color: #1E7A46;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 18px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.login-modal button:hover {
+  background-color: #166538;
+}
+
+.login-modal .demo-login-button {
+  padding: 14px;
+  font-size: 17px;
+  background-color: #000000;
+  color: #FFFFFF;
+  border: 1px solid #000000;
+  border-radius: 18px;
+}

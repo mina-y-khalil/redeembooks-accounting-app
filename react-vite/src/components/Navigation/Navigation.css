@@ -1,3 +1,133 @@
-.profile-dropdown {
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidebar {
+  background-color: #1E7A46;
+  width: 352px;
+  height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* FIX: avoid big green gap */
+  box-sizing: border-box;
+}
+
+.sidebar-top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.sidebar-logo {
+  height: 80px;
+  width: auto;
+}
+
+.sidebar-icons {
+  display: flex;
+  gap: 15px;
+}
+
+.sidebar-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-icon {
+  filter: invert(100%);
+  height: 24px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar-nav + .sidebar-nav {
+  margin-top: 15px;
+}
+
+.nav-button {
+  display: block;
+  text-align: left;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.nav-button.active,
+.nav-button.dark {
+  background-color: #00525E;
+}
+
+.nav-button.yellow {
+  background-color: #FFD700;
+  color: #000000;
+}
+
+.dropdown-toggle .dropdown-arrow {
+  transition: transform 0.3s ease;
+  float: right;
+  margin-left: 10px;
+}
+
+.dropdown-toggle .dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.deactivated-button {
+  background-color: #FFD700 !important; /* force yellow */
+  color: #000000 !important;            /* force black text */
+  cursor: not-allowed;
+  position: relative;
+}
+
+.deactivated-button .coming-soon-note {
+  font-size: 12px;
+  font-weight: normal;
+  background-color: #00525E;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 12px;
   position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sidebar-bottom-section {
+  text-align: center;
+  margin-top: auto;
+}
+
+.qr-code {
+  width: 110px;
+  margin-bottom: 10px;
+}
+
+.developer-credit {
+  color: #FFFFFF;
+  font-size: 20px;
 }
