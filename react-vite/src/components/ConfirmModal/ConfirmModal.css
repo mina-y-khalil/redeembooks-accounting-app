@@ -1,0 +1,44 @@
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 60;
+}
+
+.confirm-card {
+  background: #E0E0E0;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding: 28px 34px;
+  width: 360px;
+  text-align: center;
+}
+
+.confirm-card p {
+  margin: 0 0 18px;
+  color: #111;
+  font-size: 18px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+}
+
+.btn-yes,
+.btn-no {
+  min-width: 96px;
+  height: 40px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-yes { background: #1E7A46; }
+.btn-no  { background: #E53935; }

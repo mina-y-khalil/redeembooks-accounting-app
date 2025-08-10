@@ -39,7 +39,7 @@ function Navigation() {
 
         {isDropdownOpen && (
           <div className="dropdown-container">
-            <NavLink to="/" className="nav-button yellow">Vendors</NavLink>
+            <NavLink to="/vendors" className="nav-button yellow">Vendors</NavLink>
             <NavLink to="/" className="nav-button yellow">Categories</NavLink>
             <NavLink to="/" className="nav-button yellow">Invoices</NavLink>
             <NavLink to="/" className="nav-button yellow">Payments</NavLink>

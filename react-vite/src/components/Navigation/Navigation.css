@@ -16,7 +16,7 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* FIX: avoid big green gap */
+  justify-content: flex-start; /* this to avoid big green gap */
   box-sizing: border-box;
 }
 
@@ -130,4 +130,21 @@ body {
 .developer-credit {
   color: #FFFFFF;
   font-size: 20px;
+}
+
+/* Sidebar stays pinned on the left */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 352px;
+  height: 100vh;
+  background-color: #1E7A46;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  box-sizing: border-box;
+  /* overflow if content exceeds height */
+  overflow-y: auto;
 }

@@ -33,11 +33,14 @@ def seed():
         undo_invoices()
         undo_categories()
         undo_vendors()
+        undo_user_companies()
         undo_companies()
         undo_users()
+
     seed_users()
     # Add other seed functions here
     seed_companies()
+    seed_user_companies()
     seed_vendors()
     seed_categories()
     seed_invoices()
@@ -45,15 +48,12 @@ def seed():
     seed_payment_batches()
     seed_bank_balances()
     seed_audit_logs()
-    seed_user_companies()
 
 
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
-    undo_users()
-    # Add other undo functions here
     undo_audit_logs()
     undo_bank_balances()
     undo_payment_batches()
@@ -61,7 +61,6 @@ def undo():
     undo_invoices()
     undo_categories()
     undo_vendors()
-    undo_companies()
     undo_user_companies()
-
-
+    undo_companies()
+    undo_users()

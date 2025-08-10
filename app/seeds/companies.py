@@ -4,6 +4,7 @@ from sqlalchemy.sql import text
 
 def seed_companies():
     companies = [
+        Company(name="Demo Company", tax_id="11-1111111", street="123 Demo St", city="San Ramon", county="Contra Costa", state="CA", zipcode="94582", phone="925-555-0000", email="demo@company.com"),
         Company(name="Redeem Innovations LLC", tax_id="98-7654321", street="123 Tech Ave", city="San Francisco", county="SF", state="CA", zipcode="94105", phone="415-123-4567", email="info@redeeminnovations.com"),
         Company(name="Redeem Real Estate", tax_id="12-3456789", street="500 Market St", city="San Jose", county="Santa Clara", state="CA", zipcode="95113", phone="408-555-1212", email="contact@redeemrealestate.com"),
         Company(name="Redeem Restaurants", tax_id="22-3344556", street="78 Culinary Blvd", city="Los Angeles", county="LA", state="CA", zipcode="90001", phone="323-789-6543", email="hello@redeemrestaurants.com"),

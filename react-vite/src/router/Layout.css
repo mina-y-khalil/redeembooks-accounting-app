@@ -1,0 +1,8 @@
+.app-content {
+  margin-left: 352px;          /* matches sidebar width */
+  width: calc(100% - 352px);   /* ensures it sits BESIDE the sidebar */
+  min-height: 100vh;
+  background: #ffffff;
+  padding: 24px 28px;      
+  box-sizing: border-box;
+}

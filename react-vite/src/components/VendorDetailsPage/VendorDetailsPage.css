@@ -1,0 +1,46 @@
+.vendor-details {
+  padding: 28px 32px;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.details-header h2 {
+  margin: 0;
+  color: #1E7A46;
+  font-size: 28px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 18px;
+  font-weight: 700;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+
+.btn-primary { background: #1E7A46; color: #fff; }
+.btn-danger  { background: #E53935; color: #fff; border-color: #E53935; }
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 8px 24px;
+  padding: 18px 0;
+}
+
+.label {
+  color: #1E7A46;
+  font-weight: 700;
+}
+
+.value a { color: #00525E; text-decoration: none; }
