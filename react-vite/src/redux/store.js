@@ -6,9 +6,27 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import companiesReducer from "./companies";
+import vendorsReducer from "./vendors";
+import categoriesReducer from "./categories";
+import invoicesReducer from "./invoices";
+import paymentsReducer from "./payments";
+import paymentBatchesReducer from "./paymentBatches";
+import auditLogsReducer from "./auditLogs";
+import approversReducer from "./approvers";
+import bankBalancesReducer from "./bankBalances";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  companies: companiesReducer,
+  vendors: vendorsReducer,
+  categories: categoriesReducer,
+  invoices: invoicesReducer,
+  payments: paymentsReducer,
+  paymentBatches: paymentBatchesReducer,
+  auditLogs: auditLogsReducer,
+  approvers: approversReducer,
+  bankBalances: bankBalancesReducer,
 });
 
 let enhancer;

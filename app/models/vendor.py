@@ -33,10 +33,6 @@ class Vendor(db.Model):
     company = db.relationship('Company', back_populates='vendors')
     invoices = db.relationship('Invoice', back_populates='vendor', cascade="all, delete-orphan")
     payments = db.relationship('Payment', back_populates='vendor', cascade="all, delete-orphan")
-    invoices = db.relationship('Invoice', back_populates='vendor', cascade="all, delete-orphan")
-    payments = db.relationship('Payment', back_populates='vendor', cascade="all, delete-orphan")
-
-
 
     def to_dict(self):
         return {
