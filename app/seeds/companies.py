@@ -10,7 +10,13 @@ def seed_companies():
         Company(name="Redeem Restaurants", tax_id="22-3344556", street="78 Culinary Blvd", city="Los Angeles", county="LA", state="CA", zipcode="90001", phone="323-789-6543", email="hello@redeemrestaurants.com"),
         Company(name="Redeem Financial Services", tax_id="11-2233445", street="100 Finance St", city="San Diego", county="SD", state="CA", zipcode="92101", phone="619-321-9876", email="support@redeemfinance.com")
     ]
-    db.session.add_all(companies)
+    for obj in companies:
+        existing = Company.query.filter(
+            (Company.tax_id == obj.tax_id) | (Company.name == obj.name)
+        ).first()
+        if not existing:
+            db.session.add(obj)
+
     db.session.commit()
 
 def undo_companies():
