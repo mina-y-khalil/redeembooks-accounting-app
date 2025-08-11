@@ -1,0 +1,22 @@
+.category-invoices-page { padding: 28px 32px; }
+.category-invoices-page h2 { color:#1E7A46; font-size:28px; margin:0 0 16px; }
+/* .coming-soon {
+  display:inline-block;
+  background:#1E7A46;
+  color:#fff;
+  border-radius:12px;
+  padding:10px 16px;
+  font-weight:700;
+} */
+
+.coming-soon-container2 {
+    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  text-align: center;
+    gap: 12px;
+    padding-top: 150px;
+  
+}

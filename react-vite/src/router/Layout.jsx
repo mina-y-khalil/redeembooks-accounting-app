@@ -9,21 +9,19 @@ import "./Layout.css";
 export default function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const companyId = 1; // Hardcoded companyId for testing purposes
+  const companyId = 1;
 
   useEffect(() => {
     dispatch(thunkAuthenticate()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
   return (
-    <>
-      <ModalProvider>
-        <Navigation />
-        <main className="app-content">
-          {isLoaded && <Outlet context={{ companyId }} />}
-          <Modal />
-        </main>
-      </ModalProvider>
-    </>
+    <ModalProvider>
+      <Navigation />
+      <main className="app-content">
+        {isLoaded && <Outlet context={{ companyId }} />}
+      </main>
+      <Modal />
+    </ModalProvider>
   );
 }
