@@ -65,7 +65,7 @@ function Navigation() {
                 <NavLink to="/categories" className="nav-button yellow">
                   Categories
                 </NavLink>
-                <NavLink to="/" className="nav-button yellow">
+                <NavLink to="/invoices" className="nav-button yellow">
                   Invoices
                 </NavLink>
                 <NavLink to="/" className="nav-button yellow">

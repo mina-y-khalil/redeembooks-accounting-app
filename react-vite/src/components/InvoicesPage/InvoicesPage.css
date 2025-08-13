@@ -1,0 +1,39 @@
+.invoices-page { padding: 28px 32px; }
+.invoices-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.invoices-header h2 { color:#1E7A46; font-size:28px; margin:0; }
+
+.card { background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+
+.invoices-thead,
+.invoices-row {
+  display:grid;
+  grid-template-columns: 2fr 2fr 1.5fr 1.5fr 2fr;
+  gap: 12px;
+  padding: 14px 16px;
+  align-items:center;
+}
+
+.invoices-thead { font-weight:700; color:#1E7A46; border-bottom:1px solid #e7e7e7; }
+.invoices-row { border-bottom:1px solid #f0f0f0; }
+.invoices-tbody .invoices-row:last-child { border-bottom:none; }
+
+.actions-col { text-align:right; }
+.row-actions { display:flex; gap:10px; justify-content:flex-end; }
+
+.btn { border:none; border-radius:16px; padding:8px 14px; font-weight:700; cursor:pointer; }
+.btn-primary { background:#1E7A46; color:#fff; border:1px solid #000; }
+.btn-danger { background:#E53935; color:#fff; }
+.btn-dark { background:#1E7A46; color:#fff; }
+
+.status-pill {
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:700;
+}
+.pill--pending { background:#FFE8B2; color:#6b4c00; }   /* light orange */
+.pill--approved { background:#CDEECD; color:#0f5b28; }  /* light green */
+.pill--declined { background:#F8C7C7; color:#7a0b0b; }  /* light red */
+
+.invoices-empty { padding:16px; color:#555; }
