@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import { thunkGetVendors, thunkDeleteVendor } from "../../redux/vendors";
+import { thunkGetInvoices } from "../../redux/invoices";
 import VendorFormModal from "../VendorFormModal/VendorFormModal";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import "./VendorsPage.css";
@@ -11,39 +12,56 @@ function VendorsPage() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { setModalContent } = useModal();
-    const { companyId } = useOutletContext(); // Retrieve companyId from the Outlet context
-    const vendors = Object.values(useSelector((s) => s.vendors || {}));
-    console.log('VendorsPage mounted:', { companyId, vendors });
+    const { companyId } = useOutletContext();
+
+    const vendorsById = useSelector((s) => s.vendors || {});
+    const vendors = useMemo(() => Object.values(vendorsById), [vendorsById]);
+
+    const invoicesById = useSelector((s) => s.invoices || {});
+    const invoices = useMemo(() => Object.values(invoicesById), [invoicesById]);
 
     useEffect(() => {
-        // Fetch vendors when the component mounts or companyId changes
-        if (companyId) dispatch(thunkGetVendors(companyId));
+        if (companyId) {
+            dispatch(thunkGetVendors(Number(companyId)));
+            dispatch(thunkGetInvoices(Number(companyId)));
+        }
     }, [dispatch, companyId]);
 
-    const openCreate = () => {
-        setModalContent(<VendorFormModal companyId={companyId} />);
-    };
+    const balancesByVendor = useMemo(() => {
+        const map = {};
+        for (const inv of invoices) {
+            if (!inv?.vendor_id) continue;
+            const include =
+                inv.status === "Pending approval" ||
+                inv.status === "Approved" ||
+                !inv.status;
+            if (!include) continue;
+            map[inv.vendor_id] = (map[inv.vendor_id] || 0) + Number(inv.amount || 0);
+        }
+        return map;
+    }, [invoices]);
 
-    const openEdit = (vendor) => {
+    const openCreate = () => setModalContent(<VendorFormModal companyId={companyId} />);
+    const openEdit = (vendor) =>
         setModalContent(<VendorFormModal companyId={companyId} vendor={vendor} />);
-    };
-
-    const openDelete = (vendorId) => {
+    const openDelete = (vendorId) =>
         setModalContent(
             <ConfirmModal
                 message="Are you sure you want to proceed?"
                 onConfirm={async () => {
                     await dispatch(thunkDeleteVendor(vendorId));
+                    await dispatch(thunkGetVendors(Number(companyId)));
                 }}
             />
         );
-    };
 
     return (
         <div className="vendors-page">
             <div className="vendors-header">
                 <h2>Vendors</h2>
-                <button className="btn btn-primary" onClick={openCreate}>Add New Vendor</button>
+                <button className="btn btn-primary" onClick={openCreate}>
+                    Add New Vendor
+                </button>
             </div>
 
             <div className="vendors-table card">
@@ -55,21 +73,35 @@ function VendorsPage() {
                 </div>
 
                 <div className="vendors-tbody">
-                    {vendors.map((v) => (
-                        <div className="vendors-row" key={v.id}>
-                            <div>{v.name}</div>
-                            <div>{v.email || "-"}</div>
-                            <div>{v.balance != null ? Number(v.balance).toLocaleString("en-US", { style: "currency", currency: "USD" }) : "-"}</div>
-                            <div className="row-actions">
-                                <button className="btn btn-view" onClick={() => navigate(`/vendors/${v.id}`)}>View</button>
-                                <button className="btn btn-edit" onClick={() => openEdit(v)}>Edit</button>
-                                <button className="btn btn-danger" onClick={() => openDelete(v.id)}>Delete</button>
+                    {vendors.map((v) => {
+                        const bal = balancesByVendor[v.id];
+                        return (
+                            <div className="vendors-row" key={v.id}>
+                                <div>{v.name}</div>
+                                <div>{v.email || "-"}</div>
+                                <div>
+                                    {bal != null
+                                        ? Number(bal).toLocaleString("en-US", {
+                                            style: "currency",
+                                            currency: "USD",
+                                        })
+                                        : "-"}
+                                </div>
+                                <div className="row-actions">
+                                    <button className="btn btn-view" onClick={() => navigate(`/vendors/${v.id}`)}>
+                                        View
+                                    </button>
+                                    <button className="btn btn-edit" onClick={() => openEdit(v)}>
+                                        Edit
+                                    </button>
+                                    <button className="btn btn-danger" onClick={() => openDelete(v.id)}>
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    {vendors.length === 0 && (
-                        <div className="vendors-empty">No vendors yet.</div>
-                    )}
+                        );
+                    })}
+                    {vendors.length === 0 && <div className="vendors-empty">No vendors yet.</div>}
                 </div>
             </div>
         </div>

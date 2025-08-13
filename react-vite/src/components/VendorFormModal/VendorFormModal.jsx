@@ -12,8 +12,8 @@ const fields = [
     { key: "phone", label: "Phone" },
     { key: "tax_id", label: "Tax ID" },
     { key: "street", label: "Address" },
-    { key: "payment_terms", label: "Payment Terms" },
-    { key: "w9_document_url", label: "W-9 document url" },
+    { key: "payment_terms", label: "Payment Terms (days)", type: "number", min: 0, step: 1, placeholder: "e.g., 0 for Due on Receipt" },
+    { key: "w9_document_url", label: "W-9 Document URL", type: "url", placeholder: "https://..." },
 ];
 
 function VendorFormModal({ companyId, vendor }) {
@@ -24,14 +24,26 @@ function VendorFormModal({ companyId, vendor }) {
 
     const [form, setForm] = useState(() => {
         const init = {};
-        fields.forEach(f => (init[f.key] = vendor ? vendor[f.key] ?? "" : ""));
+        fields.forEach((f) => {
+            if (f.key === "payment_terms") {
+                init[f.key] =
+                    vendor && vendor[f.key] !== undefined && vendor[f.key] !== null
+                        ? vendor[f.key]
+                        : 0;
+            } else {
+                init[f.key] = vendor ? vendor[f.key] ?? "" : "";
+            }
+        });
         return init;
     });
+
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
-        const onDown = (e) => { if (ref.current && !ref.current.contains(e.target)) closeModal(); };
+        const onDown = (e) => {
+            if (ref.current && !ref.current.contains(e.target)) closeModal();
+        };
         document.addEventListener("mousedown", onDown);
         return () => document.removeEventListener("mousedown", onDown);
     }, [closeModal]);
@@ -47,10 +59,23 @@ function VendorFormModal({ companyId, vendor }) {
             return;
         }
 
+        const rawTerms = form.payment_terms;
+        const parsedTerms =
+            rawTerms === "" || rawTerms === null || rawTerms === undefined
+                ? 0
+                : Number(rawTerms);
+
+        if (!Number.isInteger(parsedTerms) || parsedTerms < 0) {
+            setErrors({ payment_terms: "Payment terms must be a non-negative whole number of days." });
+            return;
+        }
+
+        const payload = { ...form, payment_terms: parsedTerms };
+
         setSubmitting(true);
         const result = vendor
-            ? await dispatch(thunkUpdateVendor(vendor.id, form))
-            : await dispatch(thunkCreateVendor(companyId, form));
+            ? await dispatch(thunkUpdateVendor(vendor.id, payload))
+            : await dispatch(thunkCreateVendor(companyId, payload));
         setSubmitting(false);
 
         if (result?.errors) {
@@ -78,6 +103,10 @@ function VendorFormModal({ companyId, vendor }) {
                             value={form[f.key]}
                             onChange={(e) => onChange(f.key, e.target.value)}
                             required={!!f.required}
+                            placeholder={f.placeholder}
+                            min={f.min}
+                            step={f.step}
+                            inputMode={f.type === "number" ? "numeric" : undefined}
                         />
                         {errors[f.key] && <p className="error">{errors[f.key]}</p>}
                     </label>

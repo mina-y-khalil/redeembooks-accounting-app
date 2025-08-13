@@ -9,6 +9,8 @@ import VendorsPage from "../components/VendorsPage";
 import VendorDetailsPage from "../components/VendorDetailsPage";
 import CategoriesPage from "../components/CategoriesPage";
 import CategoryInvoicesPage from "../components/CategoryInvoicesPage";
+import InvoicesPage from "../components/InvoicesPage";
+import InvoiceDetailsPage from "../components/InvoiceDetailsPage";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,9 @@ export const router = createBrowserRouter([
 
       { path: "categories", element: <RequireAuth><CategoriesPage /></RequireAuth> },
       { path: "categories/:categoryId/invoices", element: <RequireAuth><CategoryInvoicesPage /></RequireAuth> },
+
+      { path: "invoices", element: <RequireAuth><InvoicesPage /></RequireAuth> },
+      { path: "invoices/:invoiceId", element: <RequireAuth><InvoiceDetailsPage /></RequireAuth> },
     ],
   },
 ]);
