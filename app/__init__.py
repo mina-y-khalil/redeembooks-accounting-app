@@ -1,6 +1,8 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.errors import RateLimitExceeded
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager
@@ -62,6 +64,35 @@ app.register_blueprint(bank_balance_routes, url_prefix='/api')
 
 db.init_app(app)
 Migrate(app, db)
+
+
+# Rate limits (bots, scrapers and password guessing).
+# Render routes all public traffic through Cloudflare, which puts the
+# visitor's real IP in CF-Connecting-IP; fall back to the socket address
+# when running locally.
+def client_key():
+    return (request.headers.get('CF-Connecting-IP')
+            or request.headers.get('True-Client-IP')
+            or request.remote_addr)
+
+
+limiter = Limiter(
+    key_func=client_key,
+    app=app,
+    default_limits=['600 per 15 minutes'],
+    storage_uri='memory://',
+    headers_enabled=True,
+)
+
+# Login and sign-up: 20 attempts per visitor per 15 minutes.
+limiter.limit('20 per 15 minutes', methods=['POST'])(auth_routes)
+
+
+@app.errorhandler(RateLimitExceeded)
+def rate_limited(e):
+    response = jsonify({'errors': {'message': 'Too many requests. Please try again in a few minutes.'}})
+    response.status_code = 429
+    return response
 
 # Application Security
 CORS(app)
